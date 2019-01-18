@@ -11,6 +11,8 @@
  */
 var assert = require('assert')
 var Label = require('../lib/network/modules/components/shared/Label').default
+var ComponentUtil = require('../lib/network/modules/components/shared/ComponentUtil')
+  .default
 var NodesHandler = require('../lib/network/modules/NodesHandler').default
 var util = require('../lib/util')
 var canvasMockify = require('./canvas-mock')
@@ -1842,5 +1844,44 @@ describe('Network Label', function() {
     var network = new Network(container, data, options)
 
     done()
+  })
+
+  describe('visible function', function() {
+    it('correctly determines label is not visible when label is invalid', function(done) {
+      var invalidLabel = ''
+      assert(
+        !ComponentUtil.isValidLabel(invalidLabel),
+        'An empty string should be identified as an invalid label'
+      )
+
+      var body = {
+        view: {
+          scale: 1
+        }
+      }
+
+      var options = {
+        label: invalidLabel,
+        font: {
+          size: 12
+        },
+        scaling: {
+          label: {
+            drawThreshold: 1
+          }
+        }
+      }
+
+      var label = new Label(body, options)
+      label.size.width = 1
+      label.size.height = 1
+
+      assert(
+        !label.visible(),
+        'Label should not be visible because the label text is invalid'
+      )
+
+      done()
+    })
   })
 })
