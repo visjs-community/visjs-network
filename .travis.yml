@@ -17,7 +17,7 @@ cache:
 before_script:
   - yarn lint
   - yarn format:check
-  - yarn add gulp
+  - yarn add gulp@3.9.1
 script:
   - gulp
   - yarn test-cov
