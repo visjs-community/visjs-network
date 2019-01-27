@@ -85,12 +85,12 @@ function createSampleNetwork(options) {
     { id: 14, label: '14' }
   ])
   var edges = new DataSet([
-    { from: 1, to: 2 },
-    { from: 2, to: 3 },
-    { from: 3, to: 4 },
-    { from: 11, to: 12 },
-    { from: 12, to: 13 },
-    { from: 13, to: 14 }
+    { from: 1, to: 2, label: '1 to 2' },
+    { from: 2, to: 3, label: '2 to 3' },
+    { from: 3, to: 4, label: '3 to 4' },
+    { from: 11, to: 12, label: '11 to 12' },
+    { from: 12, to: 13, label: '12 to 13' },
+    { from: 13, to: 14, label: '13 to 14' }
   ])
 
   // create a network
@@ -185,6 +185,23 @@ function assertNumEdges(network, expectedPresent, expectedVisible) {
     expectedVisible,
     'Number of visible edges does not match'
   )
+}
+
+function assertEdgeLabels(network, originalEdgesDataSet, assertMessagePrefix) {
+  let originalIds = originalEdgesDataSet.getIds()
+
+  for (let index = 0; index < originalIds.length; index++) {
+    let id = originalIds[index]
+    let expectedOriginalEdge = originalEdgesDataSet.get(id)
+    let currentNetworkEdge = network.body.edges[id]
+
+    assert.equal(
+      currentNetworkEdge.options.label,
+      expectedOriginalEdge.label,
+      assertMessagePrefix +
+        ' - current edge labels do not match the original edge labels'
+    )
+  }
 }
 
 /**
@@ -1107,6 +1124,8 @@ describe('Network', function() {
     it('properly opens 1-level clusters', function() {
       var [network, data, numNodes, numEdges] = createSampleNetwork()
 
+      assertEdgeLabels(network, data.edges, 'New sample network')
+
       // Pedantic: make a cluster of everything
       clusterTo(network, 'c1', [1, 2, 3, 4, 11, 12, 13, 14])
       // c1(14-13-12-11 1-2-3-4)
@@ -1118,6 +1137,11 @@ describe('Network', function() {
       numNodes -= 1
       assertNumNodes(network, numNodes, numNodes) // Expecting same as original
       assertNumEdges(network, numEdges, numEdges)
+      assertEdgeLabels(
+        network,
+        data.edges,
+        'c1(14-13-12-11 1-2-3-4) cluster opened'
+      )
 
       // One external connection
       ;[network, data, numNodes, numEdges] = createSampleNetwork()
@@ -1126,12 +1150,14 @@ describe('Network', function() {
       network.clustering.openCluster('c1', {})
       assertNumNodes(network, numNodes, numNodes) // Expecting same as original
       assertNumEdges(network, numEdges, numEdges)
+      assertEdgeLabels(network, data.edges, 'c1(3-4) cluster opened')
 
       // Two external connections
       clusterTo(network, 'c1', [2, 3])
       network.clustering.openCluster('c1', {})
       assertNumNodes(network, numNodes, numNodes) // Expecting same as original
       assertNumEdges(network, numEdges, numEdges)
+      assertEdgeLabels(network, data.edges, 'c1(2-3) cluster opened')
 
       // One external connection to cluster
       clusterTo(network, 'c1', [1, 2])
@@ -1143,12 +1169,14 @@ describe('Network', function() {
       numEdges += 1
       assertNumNodes(network, numNodes, numNodes - 2)
       assertNumEdges(network, numEdges, numEdges - 2)
+      assertEdgeLabels(network, data.edges, 'c1(1-2) c2(3-4) c1 cluster opened')
 
       // two external connections to clusters
       ;[network, data, numNodes, numEdges] = createSampleNetwork()
       data.edges.update({
         from: 1,
-        to: 11
+        to: 11,
+        label: '1 to 11'
       })
       numEdges += 1
       assertNumNodes(network, numNodes, numNodes)
@@ -1176,6 +1204,11 @@ describe('Network', function() {
       // 14-13-c3(-12-11-)-1-2-c2(-3-4)
       assertNumNodes(network, numNodes, numNodes - 4)
       assertNumEdges(network, numEdges, numEdges - 5)
+      assertEdgeLabels(
+        network,
+        data.edges,
+        '14-13-c3(-12-11-)-1-2-c2(-3-4) c1 cluster opened'
+      )
     })
 
     /**
@@ -1184,7 +1217,9 @@ describe('Network', function() {
      */
     it('properly opens clustered clusters', function() {
       var [network, data, numNodes, numEdges] = createSampleNetwork()
-      data.edges.update({ from: 1, to: 11 })
+      assertEdgeLabels(network, data.edges, 'New sample network')
+
+      data.edges.update({ from: 1, to: 11, label: '1 to 11' })
       numEdges += 1
       clusterTo(network, 'c1', [3, 4])
       clusterTo(network, 'c2', [2, 'c1'])
@@ -1209,13 +1244,14 @@ describe('Network', function() {
       numEdges -= 1
       assertNumNodes(network, numNodes, numNodes - 5)
       assertNumEdges(network, numEdges, numEdges - 5)
+      assertEdgeLabels(network, data.edges, 'c2 clustered cluster opened')
 
       //
       // Same, with one external connection to cluster
       //
       var [network, data, numNodes, numEdges] = createSampleNetwork()
-      data.edges.update({ from: 1, to: 11 })
-      data.edges.update({ from: 2, to: 12 })
+      data.edges.update({ from: 1, to: 11, label: '1 to 11' })
+      data.edges.update({ from: 2, to: 12, label: '2 to 12' })
       numEdges += 2
       // 14-13-12-11-1-2-3-4
       //        |------|
@@ -1263,6 +1299,11 @@ describe('Network', function() {
       numEdges -= 2
       assertNumNodes(network, numNodes, 4) // visibility doesn't change, cluster opened within cluster
       assertNumEdges(network, numEdges, 3) // (I)
+      assertEdgeLabels(
+        network,
+        data.edges,
+        'One external connection c2 middle clustered cluster opened'
+      )
 
       // Open the top cluster
       network.clustering.openCluster('c3', {})
@@ -1279,6 +1320,11 @@ describe('Network', function() {
       numEdges = 12
       assertNumNodes(network, numNodes, 6) // visibility doesn't change, cluster opened within cluster
       assertNumEdges(network, numEdges, 6) // (II) link 2-12 visible again
+      assertEdgeLabels(
+        network,
+        data.edges,
+        'One external connection c3 top clustered cluster opened'
+      )
     })
   }) // Clustering
 
