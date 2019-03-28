@@ -1,10 +1,10 @@
 ## Contributing
 
-[Contributions](//github.com/almende/vis/blob/master/misc/how_to_help.md) to the vis.js library are very welcome!
+[Contributions](https://github.com/visjs-community/visjs-network/blob/master/misc/how_to_help.md) to the vis.js library are very welcome!
 
 ### Questions
 
-If you have any _general question_ on how to use the vis.js library in your own project please check out [stackoverflow](http://stackoverflow.com/questions/tagged/vis.js) for thinks like that. **This is NOT a JavaScript help forum!**
+If you have any _general question_ on how to use the vis.js library in your own project please check out [stackoverflow](http://stackoverflow.com/questions/tagged/vis.js) for thinks like that.
 
 ### Bugs, Problems and Feature-Requests
 
