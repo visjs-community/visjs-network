@@ -45,14 +45,9 @@ We use [GitHub's two-step review](//help.github.com/articles/about-pull-request-
 
 ## Creating Pull Requests
 
-<<<<<<< HEAD
 There are some guidelines for submitting pull-requests:
-=======
-There are some rules for pull-request:
 
 - All pull-request must be to the [develop-branch](//github.com/almende/vis/tree/develop). Pull-request against the [master-branch](//github.com/almende/vis/tree/master) must be closed. (Changes to [gh-pages](//github.com/almende/vis/tree/gh-pages) are also ok.)
-
-  > > > > > > > parent of 3fca176... update more git links
 
 - Only commit changes done in the source files in the folder `lib`, not to the builds
   which are located in the folder `dist`.
@@ -67,8 +62,6 @@ There are some rules for pull-request:
 
 - If you introduce breaking changes, like changing the signature of a public function, point that out in your description. Breaking changes result in a new major release.
 
-- Always adapt to the code style of the existing source. Never adapt existing code to your personal taste. :trollface:
+- Pull-requests must be reviewed by at least one visjs-community member.
 
-- Pull-requests must be reviewed by at least two member of the support team. The First must approve the pull-request, the second can than merge after also checking it.
-
-**Happy Helping!!**
+**Happy Helping!**
