@@ -4,8 +4,6 @@ A dynamic, browser-based network visualization library. A network-visualization 
 
 See this [github issue comment](https://github.com/visjs-community/visjs-network/issues/4015#issuecomment-410556365) for some project history.
 
-[![Join the chat at https://gitter.im/vis-js/Lobby](https://badges.gitter.im/vis-js/Lobby.svg)](https://gitter.im/vis-js/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 visjs-network is designed to be easy to use, handle dynamic data, and enable data manipulation.
 The library consists of the following components:
 
@@ -69,7 +67,7 @@ require(['vis'], function(math) {
 ## Example
 
 Examples can be
-found in the [examples directory](https://github.com/almende/vis/tree/master/examples)
+found in the [examples directory](https://github.com/visjs-community/visjs-network/tree/master/examples)
 of the project.
 
 ## Build
@@ -103,7 +101,7 @@ slow, so when only the non-minified library is needed, one can use the
 
 The folder `dist` contains bundled versions of vis.js for direct use in the browser. These bundles contain all the visualizations and include external dependencies such as _hammer.js_ and _moment.js_.
 
-The source code of vis.js consists of commonjs modules, which makes it possible to create custom bundles using tools like [Browserify](http://browserify.org/) or [Webpack](http://webpack.github.io/). This can be bundling just one visualization like the Timeline, or bundling vis.js as part of your own browserified web application.
+The source code of vis.js consists of commonjs modules, which makes it possible to create custom bundles using tools like [Browserify](http://browserify.org/) or [Webpack](http://webpack.github.io/). This can be useful when bundling vis.js as part of your own browserified web application.
 
 _Note that hammer.js version 2 is required as of v4._
 
@@ -134,41 +132,7 @@ Before you can do a custom build:
 
 ### Examples of custom builds
 
-#### Example 1: Bundle only a single visualization type
-
-For example, to create a bundle with just the Timeline and DataSet, create an index file named **custom.js** in the root of the project, containing:
-
-```js
-exports.DataSet = require('./lib/DataSet')
-exports.Timeline = require('./lib/timeline/Timeline')
-```
-
-Then create a custom bundle using browserify, like:
-
-    browserify custom.js -t [ babelify --presets [env] ] -o dist/vis-custom.js -s vis
-
-This will generate a custom bundle _vis-custom.js_, which exposes the namespace `vis` containing only `DataSet` and `Timeline`. You can pass additional options to babelify and browserify as needed (e.g. to customise the browsers that are supported).
-
-The generated bundle can be minified using uglifyjs:
-
-    uglifyjs dist/vis-custom.js -o dist/vis-custom.min.js
-
-The custom bundle can now be loaded like:
-
-```html
-<!DOCTYPE HTML>
-<html>
-<head>
-  <script src="dist/vis-custom.min.js"></script>
-  <link href="dist/vis.min.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-  ...
-</body>
-</html>
-```
-
-#### Example 2: Exclude external libraries
+#### Example 1: Exclude external libraries
 
 The default bundle `vis.js` is standalone and includes external dependencies such as _hammer.js_ and _moment.js_. When these libraries are already loaded by the application, vis.js does not need to include these dependencies itself too. To build a custom bundle of vis.js excluding _moment.js_ and _hammer.js_, run browserify in the root of the project:
 
@@ -198,92 +162,6 @@ The custom bundle can now be loaded as:
 </html>
 ```
 
-#### Example 3: Bundle vis.js as part of your (commonjs) application
-
-When writing a web application with commonjs modules, vis.js can be packaged automatically into the application. Create a file **app.js** containing:
-
-```js
-var moment = require('moment')
-var DataSet = require('vis/lib/DataSet')
-var Timeline = require('vis/lib/timeline/Timeline')
-
-var container = document.getElementById('visualization')
-var data = new DataSet([
-  { id: 1, content: 'item 1', start: moment('2013-04-20') },
-  { id: 2, content: 'item 2', start: moment('2013-04-14') },
-  { id: 3, content: 'item 3', start: moment('2013-04-18') },
-  {
-    id: 4,
-    content: 'item 4',
-    start: moment('2013-04-16'),
-    end: moment('2013-04-19')
-  },
-  { id: 5, content: 'item 5', start: moment('2013-04-25') },
-  { id: 6, content: 'item 6', start: moment('2013-04-27') }
-])
-var options = {}
-var timeline = new Timeline(container, data, options)
-```
-
-The application can be bundled and minified:
-
-    browserify app.js -o dist/app-bundle.js -t babelify
-    uglifyjs dist/app-bundle.js -o dist/app-bundle.min.js
-
-And loaded into a webpage:
-
-```html
-<!DOCTYPE HTML>
-<html>
-<head>
-  <link href="node_modules/vis/dist/vis.min.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-  <div id="visualization"></div>
-  <script src="dist/app-bundle.min.js"></script>
-</body>
-</html>
-```
-
-#### Example 4: Integrate vis.js components directly in your webpack build
-
-You can integrate e.g. the timeline component directly in you webpack build.
-Therefor you can e.g. import the component-files from root direcory (starting with "index-").
-
-TODO: add analogous Network example
-
-```js
-import { DataSet, Timeline } from 'vis/index-timeline-graph2d'
-
-var container = document.getElementById('visualization')
-var data = new DataSet()
-var timeline = new Timeline(container, data, {})
-```
-
-To get this to work you'll need to add some babel-loader-setting to your webpack-config:
-
-```js
-module: {
-  module: {
-    rules: [{
-      test: /node_modules[\\\/]vis[\\\/].*\.js$/,
-      loader: 'babel-loader',
-      query: {
-        cacheDirectory: true,
-        presets: [ "babel-preset-env" ].map(require.resolve),
-        plugins: [
-          "transform-es3-property-literals", // #2452
-          "transform-es3-member-expression-literals", // #2566
-          "transform-runtime" // #2566
-        ]
-      }
-    }]
-  }
-}
-```
-
-There is also an [demo-project](https://github.com/mojoaxel/vis-webpack-demo) showing the integration of vis.js using webpack.
-
 ## Test
 
 To test the library, install the project dependencies once:
@@ -296,7 +174,7 @@ Then run the tests:
 
 ## Contribute
 
-[Contributions](//github.com/almende/vis/blob/master/misc/how_to_help.md) to the vis.js library are very welcome!
+[Contributions](https://github.com/visjs-community/visjs-network/blob/master/misc/how_to_help.md) to the vis.js library are very welcome!
 
 ### Contributors
 
@@ -305,7 +183,7 @@ This project exists thanks to all the people who already contributed.
 
 ## License
 
-Copyright (C) 2010-2018 Almende B.V. and Contributors
+Copyright (C) 2010-2018 Contributors
 
 Vis.js is dual licensed under both
 
