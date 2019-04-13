@@ -66,7 +66,7 @@ require(['vis'], function(math) {
 yarn examples
 ```
 
-Run the command to run a local server and to explore the examples.
+Run the `yarn examples` command to explore the examples locally.  This command launches a local server, opens a browser window, and navigates that browser window to the index page for the top-level examples directory.
 
 Examples can be
 found in the [examples/](https://github.com/visjs-community/visjs-network/tree/master/examples) directory
