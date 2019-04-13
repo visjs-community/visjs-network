@@ -2,8 +2,6 @@
 
 A dynamic, browser-based network visualization library. A network-visualization focused fork of the visualization library [vis.js](https://github.com/visjs-community/vis)
 
-See this [github issue comment](https://github.com/visjs-community/visjs-network/issues/4015#issuecomment-410556365) for some project history.
-
 visjs-network is designed to be easy to use, handle dynamic data, and enable data manipulation.
 The library consists of the following components:
 
@@ -12,8 +10,6 @@ The library consists of the following components:
   remove items. Subscribe on changes in the data set. A DataSet can filter and
   order items, and convert fields of items.
 - DataView. A filtered and/or formatted view on a DataSet.
-
-The vis.js library was originally developed by Dutch R&D Company [Almende B.V](http://almende.com).
 
 ## Install
 
@@ -64,10 +60,16 @@ require(['vis'], function(math) {
 })
 ```
 
-## Example
+## Examples
+
+```bash
+yarn examples
+```
+
+Run the command to run a local server and to explore the examples.
 
 Examples can be
-found in the [examples directory](https://github.com/visjs-community/visjs-network/tree/master/examples)
+found in the [examples/](https://github.com/visjs-community/visjs-network/tree/master/examples) directory
 of the project.
 
 ## Build
@@ -180,6 +182,12 @@ Then run the tests:
 
 This project exists thanks to all the people who already contributed.
 <a href="graphs/contributors"><img src="https://opencollective.com/vis/contributors.svg?width=890" /></a>
+
+## History
+
+See this [github issue comment](https://github.com/visjs-community/visjs-network/issues/4015#issuecomment-410556365) for some project history.
+
+The vis.js library was originally developed by Dutch R&D Company [Almende B.V](http://almende.com).
 
 ## License
 
