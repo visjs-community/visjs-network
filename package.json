@@ -27,6 +27,7 @@
   "main": "./dist/vis.js",
   "scripts": {
     "build": "gulp",
+    "examples": "yarn build && live-server",
     "format": "prettier --config .prettierrc.json --write '{lib,test,examples}/**/*.js'",
     "format:check": "prettier --config .prettierrc.json --debug-check --list-different '{lib,test,examples}/**/*.js'",
     "lint": "eslint '{lib,examples}/**/*.js'",
@@ -67,6 +68,7 @@
     "jsdoc": "^3.5.5",
     "jsdom": "11.3.0",
     "jsdom-global": "^3.0.2",
+    "live-server": "^1.2.1",
     "merge-stream": "^1.0.1",
     "mocha": "^3.4.2",
     "nyc": "^11.2.1",
